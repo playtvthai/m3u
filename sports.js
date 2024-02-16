@@ -1267,20 +1267,20 @@ function espnprem() {
 
 //sport live event
 
-function afc() {
-  location.href = "go:afc";
+function mono() {
+  location.href = "go:mono";
 };
 function event1() {
   location.href = "go:event";
 };
-function epl() {
-  location.href = "go:epl";
+function 3bbsport() {
+  location.href = "go:3bbsport";
 };
-function laliga() {
-  location.href = "go:laliga";
+function hbosig() {
+  location.href = "go:hbosig";
 };
-function league1() {
-  location.href = "go:league1";
+function 3bbasian() {
+  location.href = "go:3bbasian";
 };
 function bundesliga() {
   location.href = "go:bundesliga";
