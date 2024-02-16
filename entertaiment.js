@@ -13,6 +13,9 @@ function pptv() {
 function voicetv() {
   document.getElementById("objek").innerHTML = '<iframe src="intent://ais-s.ais-vidnt.com/ais/play/origin/live/eds/V0032/DASH/V0032.mpd#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=PLAYIDTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
 };
+function truehits() {
+  document.getElementById("objek").innerHTML = '<iframe src="intent://2nud.short.gy/truehits.mpd|drmScheme=clearkey&drmLicense=f75ff165c14d50ab80965fed2d5b469f:731a4c8c2f289bbbf99c0fc05276ea5e#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=NGTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
+};
 function 3bbasian() {
   document.getElementById("objek").innerHTML = '<iframe src="intent://ais-s.ais-vidnt.com/ais/play/origin/live/eds/V0191/DASH/V0191.mpd&drmScheme=clearkey&drmLicense=379c40f0207c33f804d115d3ba77ee63:b20b45bea3d8bc7ad4961f813e79d0c1#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=PLAYIDTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
 };
@@ -103,10 +106,10 @@ function cctv4() {
 function naturevision() {
   document.getElementById("objek").innerHTML = '<iframe src="intent://cdnjkt2.transvision.co.id:1001/live/master/100/4028c685840ff0490184560339e74365/manifest.mpd|drmScheme=widevine&drmLicense=https://cubmu.ceriatv.workers.dev/#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=PLAYIDTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
 };
-function cookiPLAYIDTV() {
+function cooki() {
   document.getElementById("objek").innerHTML = '<iframe src="intent://cdnjkt2.transvision.co.id:1001/live/master/4/4028c68582449a2e0182597009c021ef/manifest.mpd|drmScheme=widevine&drmLicense=https://cubmu.ceriatv.workers.dev/#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=PLAYIDTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
 };
-function gamiPLAYIDTV() {
+function gam() {
   document.getElementById("objek").innerHTML = '<iframe src="intent://cdnjkt2.transvision.co.id:1001/live/master/5/4028c6858119921801816b5359d15e63/manifest.mpd|drmScheme=widevine&drmLicense=https://cubmu.ceriatv.workers.dev/#Intent;scheme=https;type=video/*;package=com.genuine.leone;S.browser_fallback_url=market://details?id=com.genuine.leone.ad;S.title=PLAYIDTV;end" height="0" width="0" style="border:none;" title="SS Sport"></iframe>'
 };
 function prettytv() {
