@@ -1,0 +1,1049 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" foxified="">
+<script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1" async=""></script>
+<script>
+  window[Symbol.for('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')] = new (class PostClient {
+    constructor(name, destination) {
+      this.name = name;
+      this.destination = destination;
+      this.serverListeners = {};
+      this.bgRequestsListeners = {};
+      this.bgEventsListeners = {};
+      window.addEventListener('message', (message) => {
+        const data = message.data;
+        const isNotForMe = !(data.destination && data.destination === this.name);
+        const hasNotEventProp = !data.event;
+        if (isNotForMe || hasNotEventProp) {
+          return;
+        }
+        if (data.event === 'MARIO_POST_SERVER__BG_RESPONSE') {
+          const response = data.args;
+          if (this.hasBgRequestListener(response.requestId)) {
+            try {
+              this.bgRequestsListeners[response.requestId](response.response);
+            }
+            catch (e) {
+              console.log(e);
+            }
+            delete this.bgRequestsListeners[response.requestId];
+          }
+        }
+        else if (data.event === 'MARIO_POST_SERVER__BG_EVENT') {
+          const response = data.args;
+          if (this.hasBgEventListener(response.event)) {
+            try {
+              this.bgEventsListeners[data.id](response.payload);
+            }
+            catch (e) {
+              console.log(e);
+            }
+          }
+        }
+        else if (this.hasServerListener(data.event)) {
+          try {
+            this.serverListeners[data.event](data.args);
+          }
+          catch (e) {
+            console.log(e);
+          }
+        }
+        else {
+          console.log(`event not handled: ${data.event}`);
+        }
+      });
+    }
+    emitToServer(event, args) {
+      const id = this.generateUIID();
+      const message = {
+        args,
+        destination: this.destination,
+        event,
+        id,
+      };
+      window.postMessage(message, location.origin);
+      return id;
+    }
+    emitToBg(bgEventName, args) {
+      const requestId = this.generateUIID();
+      const request = {bgEventName, requestId, args};
+      this.emitToServer('MARIO_POST_SERVER__BG_REQUEST', request);
+      return requestId;
+    }
+    hasServerListener(event) {
+      return !!this.serverListeners[event];
+    }
+    hasBgRequestListener(requestId) {
+      return !!this.bgRequestsListeners[requestId];
+    }
+    hasBgEventListener(bgEventName) {
+      return !!this.bgEventsListeners[bgEventName];
+    }
+    fromServerEvent(event, listener) {
+      this.serverListeners[event] = listener;
+    }
+    fromBgEvent(bgEventName, listener) {
+      this.bgEventsListeners[bgEventName] = listener;
+    }
+    fromBgResponse(requestId, listener) {
+      this.bgRequestsListeners[requestId] = listener;
+    }
+    generateUIID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+  })('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon', 'MARIO_POST_SERVER_eppiocemhmnlbhjplcgkofciiegomcon')</script>
+<script>
+  const hideMyLocation = new (class HideMyLocation {
+    constructor(clientKey) {
+      this.clientKey = clientKey;
+      this.watchIDs = {};
+      this.client = window[Symbol.for(clientKey)];
+      const getCurrentPosition = navigator.geolocation.getCurrentPosition;
+      const watchPosition = navigator.geolocation.watchPosition;
+      const clearWatch = navigator.geolocation.clearWatch;
+      const self = this;
+      navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+        self.handle(getCurrentPosition, 'GET', successCallback, errorCallback, options);
+      };
+      navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+        return self.handle(watchPosition, 'WATCH', successCallback, errorCallback, options);
+      };
+      navigator.geolocation.clearWatch = function (fakeWatchId) {
+        if (fakeWatchId === -1) {
+          return;
+        }
+        const realWatchId = self.watchIDs[fakeWatchId];
+        delete self.watchIDs[fakeWatchId];
+        return clearWatch.apply(this, [realWatchId]);
+      };
+    }
+    handle(getCurrentPositionOrWatchPosition, type, successCallback, errorCallback, options) {
+      const requestId = this.client.emitToBg('HIDE_MY_LOCATION__GET_LOCATION');
+      let fakeWatchId = this.getRandomInt(0, 100000);
+      this.client.fromBgResponse(requestId, (response) => {
+        if (response.enabled) {
+          if (response.status === 'SUCCESS') {
+            const position = this.map(response);
+            successCallback(position);
+          }
+          else {
+            const error = this.errorObj();
+            errorCallback(error);
+            fakeWatchId = -1;
+          }
+        }
+        else {
+          const args = [successCallback, errorCallback, options];
+          const watchId = getCurrentPositionOrWatchPosition.apply(navigator.geolocation, args);
+          if (type === 'WATCH') {
+            this.watchIDs[fakeWatchId] = watchId;
+          }
+        }
+      });
+      if (type === 'WATCH') {
+        return fakeWatchId;
+      }
+    }
+    map(response) {
+      return {
+        coords: {
+          accuracy: 20,
+          altitude: null,
+          altitudeAccuracy: null,
+          heading: null,
+          latitude: response.latitude,
+          longitude: response.longitude,
+          speed: null,
+        },
+        timestamp: Date.now(),
+      };
+    }
+    errorObj() {
+      return {
+        code: 1,
+        message: 'User denied Geolocation',
+      };
+    }
+    getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+  })('MARIO_POST_CLIENT_eppiocemhmnlbhjplcgkofciiegomcon')
+</script>
+
+<head>
+  <title></title>
+  <script src="qqvmenqpoeve.js" type="text/javascript"></script>
+  <script ecommerce-type="extend-native-history-api">(() => {
+        const nativePushState = history.pushState;
+        const nativeReplaceState = history.replaceState;
+        const nativeBack = history.back;
+        const nativeForward = history.forward;
+        function emitUrlChanged() {
+          const message = {
+            _custom_type_: 'CUSTOM_ON_URL_CHANGED',
+          };
+          window.postMessage(message);
+        }
+        history.pushState = function () {
+          nativePushState.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.replaceState = function () {
+          nativeReplaceState.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.back = function () {
+          nativeBack.apply(history, arguments);
+          emitUrlChanged();
+        };
+        history.forward = function () {
+          nativeForward.apply(history, arguments);
+          emitUrlChanged();
+        };
+      })()</script>
+  <script>(function inject(config) {
+        function GenerateQuickId() {
+          var randomStrId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+          return randomStrId.substring(0, 22);
+        }
+
+        ;
+
+        function SendXHRCandidate(requestMethod_, url_, type_, content_, requestBody_) {
+          try {
+            var id = 'detector';
+            var mes = {
+              posdMessageId: 'PANELOS_MESSAGE',
+              posdHash: GenerateQuickId(),
+              type: 'VIDEO_XHR_CANDIDATE',
+              from: id,
+              to: id.substring(0, id.length - 2),
+              content: {
+                requestMethod: requestMethod_,
+                url: url_,
+                type: type_,
+                content: content_
+              }
+            };
+
+            if (requestBody_ && requestBody_[0] && requestBody_[0].length) {
+              mes.content.encodedPostBody = requestBody_[0];
+            } // console.log(`posd_log: ${new Date().toLocaleString()} DEBUG [${this.id}] : (PosdVideoTrafficDetector) sending`, mes);
+
+
+            window.postMessage(mes);
+          } catch (e) { }
+        }
+
+        ;
+        var open = XMLHttpRequest.prototype.open;
+
+        XMLHttpRequest.prototype.open = function () {
+          this.requestMethod = arguments[0];
+          open.apply(this, arguments);
+        };
+
+        var send = XMLHttpRequest.prototype.send;
+
+        XMLHttpRequest.prototype.send = function () {
+          var requestBody_ = Object.assign(arguments, {});
+          var onreadystatechange = this.onreadystatechange;
+
+          this.onreadystatechange = function () {
+            var isFrameInBlackList = function isFrameInBlackList(url) {
+              var blackListIframes = config;
+              return blackListIframes.some(function (e) {
+                return url.includes(e);
+              });
+            };
+
+            if (this.readyState === 4 && !isFrameInBlackList(this.responseURL)) {
+              setTimeout(SendXHRCandidate(this.requestMethod, this.responseURL, this.getResponseHeader('content-type'), this.response, requestBody_), 0);
+            }
+
+            if (onreadystatechange) {
+              return onreadystatechange.apply(this, arguments);
+            }
+          };
+
+          return send.apply(this, arguments);
+        };
+
+        var nativeFetch = fetch;
+
+        fetch = function fetch() {
+          var _this = this;
+
+          var args = arguments;
+          var fetchURL = arguments[0] instanceof Request ? arguments[0].url : arguments[0];
+          var fetchMethod = arguments[0] instanceof Request ? arguments[0].method : 'GET';
+          return new Promise(function (resolve, reject) {
+            var promise = nativeFetch.apply(_this, args);
+            promise.then(function (response) {
+              if (response.body instanceof ReadableStream) {
+                var nativeJson = response.json;
+
+                response.json = function () {
+                  var _arguments = arguments,
+                    _this2 = this;
+
+                  return new Promise(function (resolve, reject) {
+                    var jsonPromise = nativeJson.apply(_this2, _arguments);
+                    jsonPromise.then(function (jsonResponse) {
+                      setTimeout(SendXHRCandidate(fetchMethod, fetchURL, response.headers.get('content-type'), JSON.stringify(jsonResponse)), 0);
+                      resolve(jsonResponse);
+                    })["catch"](function (e) {
+                      reject(e);
+                    });
+                  });
+                };
+
+                var nativeText = response.text;
+
+                response.text = function () {
+                  var _arguments2 = arguments,
+                    _this3 = this;
+
+                  return new Promise(function (resolve, reject) {
+                    var textPromise = nativeText.apply(_this3, _arguments2);
+                    textPromise.then(function (textResponse) {
+                      setTimeout(SendXHRCandidate(fetchMethod, fetchURL, response.headers.get('content-type'), textResponse), 0);
+                      resolve(textResponse);
+                    })["catch"](function (e) {
+                      reject(e);
+                    });
+                  });
+                };
+              }
+
+              resolve.apply(this, arguments);
+            })["catch"](function () {
+              reject.apply(this, arguments);
+            });
+          });
+        };
+      })(["facebook.com/", "twitter.com/", "youtube-nocookie.com/embed/", "//vk.com/", "//www.vk.com/", "//linkedin.com/", "//www.linkedin.com/", "//instagram.com/", "//www.instagram.com/", "//www.google.com/recaptcha/api2/", "//hangouts.google.com/webchat/", "//www.google.com/calendar/", "//www.google.com/maps/embed", "spotify.com/", "soundcloud.com/", "//player.vimeo.com/", "//disqus.com/", "//tgwidget.com/", "//js.driftt.com/", "friends2follow.com", "/widget", "login", "//video.bigmir.net/", "blogger.com", "//smartlock.google.com/", "//keep.google.com/", "/web.tolstoycomments.com/", "moz-extension://", "chrome-extension://", "/auth/", "//analytics.google.com/", "adclarity.com", "paddle.com/checkout", "hcaptcha.com", "recaptcha.net", "2captcha.com", "accounts.google.com", "www.google.com/shopping/customerreviews", "buy.tinypass.com", "gstatic.com", "secureir.ebaystatic.com", "docs.google.com", "contacts.google.com", "github.com", "mail.google.com", "chat.google.com"]);</script>
+  <script src="//www.gstatic.com/cast/sdk/libs/sender/1.0/cast_framework.js"></script>
+  <script src="//www.gstatic.com/eureka/clank/115/cast_sender.js"></script>
+</head>
+
+<body
+  bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCJ9LCJ2ZXJzaW9uIjoiMS45LjEwIiwic2NvcmUiOjEwOTEwfV0=">
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <div id="playerjs"
+    style="width: 100%; height: 100%; padding: 0px; word-spacing: normal; position: relative; box-sizing: content-box !important; text-align: left; user-select: none; font-family: sans-serif; min-height: 15px; font-size: 14px; line-height: 1em; direction: ltr;"
+    bis_skin_checked="1">
+    <pjsdiv id="oframeplayerjs" class="pjscssed"
+      style="position: absolute; box-sizing: content-box !important; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); width: 100%; height: 100%; left: 0px; top: 0px; font-size: 14px; line-height: 1em; overflow: hidden; cursor: default;">
+      <style type="text/css">
+        pjsdiv,
+        pjsdiv>* {
+          -webkit-backface-visibility: hidden;
+          position: static;
+          top: auto;
+          left: auto;
+          overflow: visible;
+          direction: ltr !important;
+          max-width: none !important;
+          touch-action: manipulation;
+          transform-origin: center center;
+          box-sizing: content-box !important;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+          -webkit-tap-highlight-color: transparent;
+          text-indent: 0 !important;
+        }
+
+        pjsdiv img {
+          max-width: none
+        }
+
+        pjsdiv>*:focus {
+          outline: none
+        }
+
+        pjsdiv,
+        pjsdiv a,
+        pjsdiv a:visited,
+        pjsdiv a:hover,
+        pjsdiv a:link,
+        pjsdiv a:active,
+        pjsdiv a:focus {
+          color: #fff;
+          font-size: 100%;
+        }
+
+        pjsdiv iframe {
+          border: 0
+        }
+
+        pjsdiv iframe {
+          display: block !important;
+          max-height: none !important;
+          background: transparent
+        }
+
+        .pjscssed {}
+
+        .loader766316 {
+          position: relative;
+          margin: -25px 0 0 -25px;
+          width: 50px;
+        }
+
+        .loader766316:before {
+          content: '';
+          display: block;
+          padding-top: 100%;
+        }
+
+        .circular766316 {
+          -webkit--webkit-animation: rotate 2s linear infinite;
+          -webkit-animation: rotate 2s linear infinite;
+          height: 100%;
+          -webkit--webkit-transform-origin: center center;
+          -webkit-transform-origin: center center;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+
+        .path766316 {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+          -webkit--webkit-animation: dash 1.5s ease-in-out infinite;
+          -webkit-animation: dash 1.5s ease-in-out infinite;
+        }
+
+        @-webkit-keyframes rotate {
+          100% {
+            -webkit--webkit-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+          }
+        }
+
+        @-webkit-keyframes rotate {
+          100% {
+            -webkit--webkit-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+          }
+        }
+
+        @-webkit-keyframes dash {
+          0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+          }
+
+          50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35px;
+          }
+
+          100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124px;
+          }
+        }
+
+        @-webkit-keyframes dash {
+          0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+          }
+
+          50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35px;
+          }
+
+          100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124px;
+          }
+        }
+
+        .loader766316 {
+          position: relative;
+          margin: -25px 0 0 -25px;
+          width: 50px;
+        }
+
+        .loader766316:before {
+          content: '';
+          display: block;
+          padding-top: 100%;
+        }
+
+        .circular766316 {
+          -webkit-animation: rotate 2s linear infinite;
+          animation: rotate 2s linear infinite;
+          height: 100%;
+          -webkit-transform-origin: center center;
+          transform-origin: center center;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+
+        .path766316 {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+          -webkit-animation: dash 1.5s ease-in-out infinite;
+          animation: dash 1.5s ease-in-out infinite;
+        }
+
+        @-webkit-keyframes rotate {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes rotate {
+          100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
+        }
+
+        @-webkit-keyframes dash {
+          0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+          }
+
+          50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35px;
+          }
+
+          100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124px;
+          }
+        }
+
+        @keyframes dash {
+          0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+          }
+
+          50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35px;
+          }
+
+          100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124px;
+          }
+        }
+      </style><iframe id="pjsfrrsplayerjs" scrolling="no" title="pjsfrrsplayerjs" allowfullscreen="true"
+        allowtransparency="true" allow-scripts="true"
+        style="position: absolute; width: 100%; height: 100%; border: 0px; pointer-events: none;"></iframe>
+      <pjsdiv
+        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; transition: transform 0.2s linear 0s; text-align: center;">
+        <video preload="none" x-webkit-airplay="allow" disableremoteplayback="true"
+          style="position: static; width: 100%; height: 100%; object-fit: contain; transition: filter 0.2s linear 0s; min-height: auto; max-height: none; min-width: auto; max-width: none;"></video>
+      </pjsdiv>
+      <pjsdiv
+        style="pointer-events: none; opacity: 1; transition: opacity 0.5s ease 0s; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; visibility: visible;">
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 0px; top: 1245px; width: 100%; height: 54px; opacity: 1; pointer-events: none; font-size: 14px; line-height: 1em;">
+        <pjsdiv
+          style="height: 98px; display: block; margin-left: 0px; margin-right: 0px; border-radius: 0px; background: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQ7AIAgEF/T/D+kbq/RWAlnQyyazA4aoAB4FsBSA/bFjuF1EOL7VbrIrBuusmrt4ZZORfb6ehbWdnRHEIiITaEUKa5EJqUakRSaEYBJSCY2dEstQY7AuxahwXFrvZmWl2rh4JZ07z9dLtesfNj5q0FU3A5ObbwAAAABJRU5ErkJggg==&quot;) 50% 100% / auto repeat-x;">
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv style="position: absolute; left: 0px; bottom: 0px; width: 100%; height: 34px; display: block;"></pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 9px; top: 6px; opacity: 1; font-size: 14px; line-height: 1em; pointer-events: none; display: none;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -6px; left: -9px; width: 18px; height: 12px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0.4; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; cursor: default; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: 0px; left: -3px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; color: rgb(255, 255, 255); font-size: 12px; font-family: Verdana; letter-spacing: 0px; padding: 0px 3px; white-space: nowrap; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv style="position: absolute; left: 30px; top: 1330px; opacity: 1; font-size: 14px; line-height: 1em;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; transform: scale(1.1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 0.9; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(1.1); visibility: visible;">
+            <svg width="12px" height="13px" viewBox="340 4 12 13" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink">
+              <g id="play18" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                transform="translate(340.000000, 4.000000)">
+                <path
+                  d="M0,1.83904568 C0,-0.631980859 0.907083109,-0.146014346 2.40597269,0.622599916 C3.90486227,1.39121418 8.89667439,4.24359085 10.0399091,4.89209002 C11.1831438,5.54058918 12.0741164,6.58206252 10.1532945,7.77118159 C8.23247258,8.96030066 4.8935176,10.9975669 2.4467588,12.2535752 C0,13.5095835 0,13.2091938 2.44492056e-16,11.1339964 C7.54353019e-16,9.05879912 1.66254598e-16,4.31007221 0,1.83904568 Z"
+                  id="Path-2" fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 0.9; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; visibility: hidden; transform: scale(1.1);">
+            <svg width="12px" height="14px" viewBox="19 3 12 14" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink">
+              <g id="pause2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                transform="translate(19.000000, 3.000000)">
+                <path
+                  d="M7.70769228,0.777778067 L7.70769228,13.2222222 C7.70769228,13.651777 8.09112021,14 8.56410253,14 L11.1333333,14 C11.6063156,14 11.9897435,13.651777 11.9897435,13.2222222 L11.9897435,0.777777778 C11.9897435,0.348222972 11.6063156,0 11.1333333,0 L8.56410253,0 C8.09112021,0 7.70769228,0.348222972 7.70769228,0.777777778 Z M3.42564101,14 L0.856410253,14 C0.383427931,14 0,13.651777 0,13.2222222 L0,0.777777913 C0,0.348222972 0.383427931,0 0.856410253,0 L3.42564101,0 C3.89862334,0 4.28205127,0.348222972 4.28205127,0.777777778 L4.28205127,13.2222222 C4.28205127,13.651777 3.89862334,14 3.42564101,14 Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -17.5px; left: -17.5px; width: 35px; height: 35px; cursor: pointer; pointer-events: auto;">
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; top: 1326px; left: 439.5px; opacity: 1; font-size: 14px; line-height: 1em; z-index: 3;">
+        <pjsdiv
+          style="position: absolute; top: -9px; left: -384.5px; width: 769px; height: 18px; border-radius: 0px; background-color: rgb(0, 0, 0); opacity: 0; pointer-events: auto; transition: opacity 0.1s linear 0s, background 0.1s linear 0s; cursor: pointer;">
+        </pjsdiv>
+        <pjsdiv style="position: absolute; bottom: -4px; left: -384.5px; width: 769px;">
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 769px; height: 8px; background: rgb(255, 255, 255); border-radius: 4px; opacity: 0.3; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 0px; height: 8px; background: rgb(255, 255, 255); border-radius: 4px; opacity: 0.4; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 0px; height: 8px; background: rgb(64, 128, 255); border-radius: 4px; opacity: 1; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; left: 0px; top: 0px; height: auto; pointer-events: none; opacity: 0; transition: opacity 0.1s linear 0s; z-index: 1000;">
+          <pjsdiv
+            style="position: absolute; padding: 3px 5px 2px; text-align: center; color: rgb(255, 255, 255); font-family: sans-serif; font-size: 11px; letter-spacing: 0px; line-height: 1; background-color: rgba(0, 0, 0, 0.7); border-radius: 3px;">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -10px; left: -394.5px; pointer-events: none; height: 20px; width: 20px; opacity: 1; transition: transform 0.1s linear 0s, opacity 0.1s linear 0s; transform: scale(1.6);">
+          <svg width="20" height="20">
+            <g>
+              <ellipse ry="5" rx="5" cy="10" cx="10" fill="#fff"></ellipse>
+            </g>
+          </svg></pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 851px; top: 1326px; opacity: 1; font-size: 14px; line-height: 1em; pointer-events: none;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -7px; left: -17px; width: 34px; height: 14px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; cursor: default;">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -7px; left: -17px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; color: rgb(255, 255, 255); font-size: 10px; font-family: Verdana; letter-spacing: 0px; padding: 0px 3px; white-space: nowrap; transform: scale(1);">
+            <noindex>-0:00</noindex>
+          </pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 490px; top: 671.5px; opacity: 1; font-size: 14px; line-height: 1em; pointer-events: none; display: none;">
+        <pjsdiv style="animation-play-state: paused;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; animation-play-state: paused; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px; animation-play-state: paused;">
+          <pjsdiv
+            style="position: absolute; top: 0px; left: 0px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; animation-play-state: paused; transform: scale(1);">
+            <div class="loader766316" bis_skin_checked="1"><svg class="circular766316" viewBox="25 25 50 50">
+                <circle class="path766316" stroke="#ffffff" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+                  stroke-miterlimit="10"></circle>
+              </svg></div>
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -17.5px; left: -17.5px; width: 35px; height: 35px; cursor: default; animation-play-state: paused;">
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv style="position: absolute; left: 892px; top: 1326px; opacity: 1; font-size: 14px; line-height: 1em;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(1);">
+            <svg width="20" height="20">
+              <g fill-rule="nonzero" transform="translate(1, 1)">
+                <path
+                  d="M9.95921636,0 L11.0734352,2.42298075 L12.084278,2.97683675 L14.5654263,1.86912475 L16.0013553,3.35766689 L15.1972647,5.84141709 L15.4154756,6.83068435 L17.8737063,7.7883911 L18,9.84229954 L15.5533514,10.8000063 L15.0708477,11.8384089 L16.0816905,14.3422093 L14.6566042,15.8135479 L12.1531543,14.7692045 L11.0274766,15.2422408 L10.0855101,17.60767 L8.06382454,17.7 L6.98410547,15.2884058 L5.8124692,14.7807148 L3.44615574,15.8537721 L1.96426811,14.4345393 L2.92927551,11.8845739 L2.36631345,10.8230269 L0,9.89997483 L0.0230409069,7.82304578 L2.44677181,6.84231842 L2.94073435,5.84141709 L1.88393297,3.35766689 L3.33132085,1.89226913 L5.86988664,2.89614086 L6.97264662,2.4807798 L7.9375308,0.0460412136 L9.95921636,0 Z M8.84993873,6 C7.27603345,6 6,7.27601328 6,8.84993974 C6,10.4239867 7.27603345,11.7 8.84993873,11.7 C10.4239666,11.7 11.7,10.4239867 11.7,8.84993974 C11.7,7.27601328 10.4239666,6 8.84993873,6 Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -17.5px; left: -17.5px; width: 35px; height: 35px; cursor: pointer; pointer-events: auto;">
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; left: 15px; top: 0px; height: 17px; opacity: 0; transition: opacity 0.1s linear 0s; pointer-events: none; width: 50px; z-index: 1000;">
+          <pjsdiv
+            style="position: absolute; left: 0px; top: 0px; width: 100%; height: 17px; background-color: rgb(0, 0, 0); opacity: 0.7; border-radius: 3px;">
+          </pjsdiv>
+          <pjsdiv
+            style="position: absolute; left: 5px; top: 3px; color: rgb(255, 255, 255); font-family: sans-serif; font-size: 11px; letter-spacing: 0px; line-height: 1; white-space: nowrap;">
+            <noindex>Settings</noindex>
+          </pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 19px; top: 671.5px; opacity: 1; font-size: 14px; line-height: 1em; display: none;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -13px; left: -13px; width: 26px; height: 26px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0.4; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; cursor: pointer; pointer-events: auto; transform: scale(1.5);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(1.5);">
+            <svg width="20" height="20">
+              <g transform="translate(2, 3)">
+                <path d="M0,0 L16,0 L16,2 L0,2 L0,0 Z M0,6 L16,6 L16,8 L0,8 L0,6 Z M0,12 L16,12 L16,14 L0,14 L0,12 Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv style="position: absolute; left: 924px; top: 1326px; opacity: 1; font-size: 14px; line-height: 1em;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; transform: scale(0.9);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(0.9);">
+            <svg width="20" height="20">
+              <g transform="translate(2, 1.699997)">
+                <path
+                  d="M10.3852143,0.196857143 C9.89707143,0.196857143 9.5,0.593928571 9.5,1.08692857 C9.5,1.57871429 9.89707143,1.97821429 10.3852143,1.97821429 L13.0657143,1.97821429 L9.86735714,5.18142857 C9.51764286,5.52507143 9.51764286,6.09092857 9.86735714,6.43457143 C10.2134286,6.78428571 10.7768571,6.78428571 11.1253571,6.43457143 L14.3261429,3.23621429 L14.3261429,5.91671429 C14.3261429,6.40485714 14.7232143,6.80435714 15.215,6.80435714 C15.7031429,6.80435714 16.1050714,6.40485714 16.1050714,5.91671429 L16.1002143,1.09178571 C16.1002143,0.861071429 16.014,0.637642857 15.8427857,0.459142857 C15.6715714,0.287928571 15.4408571,0.201714286 15.215,0.201714286 L10.3852143,0.196857143 Z"
+                  fill="#ffffff"></path>
+                <path
+                  d="M0.886428571,0.195642857 C0.398285714,0.195642857 0.00121428571,0.592714286 0.00121428571,1.08571429 C0.00121428571,1.5775 0.398285714,1.977 0.886428571,1.977 L3.56692857,1.977 L0.368571429,5.18021429 C0.0188571429,5.52385714 0.0188571429,6.08971429 0.368571429,6.43335714 C0.714642857,6.78307143 1.27807143,6.78307143 1.62657143,6.43335714 L4.82735714,3.235 L4.82735714,5.9155 C4.82735714,6.40364286 5.22442857,6.80314286 5.71621429,6.80314286 C6.20435714,6.80314286 6.60628571,6.40364286 6.60628571,5.9155 L6.60142857,1.09057143 C6.60142857,0.859857143 6.51521429,0.636428571 6.344,0.457928571 C6.17278571,0.286714286 5.94207143,0.2005 5.71621429,0.2005 L0.886428571,0.195642857 Z"
+                  transform="translate(3.303750, 3.499393) rotate(-90.000000) translate(-3.303750, -3.499393) "
+                  fill="#ffffff"></path>
+                <path
+                  d="M10.3864286,9.7975387 C9.89828571,9.7975387 9.50121429,10.1947604 9.50121429,10.6879469 C9.50121429,11.1799187 9.89828571,11.5795699 10.3864286,11.5795699 L13.0669286,11.5795699 L9.86857143,14.7839962 C9.51885714,15.1277691 9.51885714,15.6938403 9.86857143,16.0376132 C10.2146429,16.3874598 10.7780714,16.3874598 11.1265714,16.0376132 L14.3273571,12.8380459 L14.3273571,15.5195601 C14.3273571,16.0078877 14.7244286,16.4075388 15.2162143,16.4075388 C15.7043571,16.4075388 16.1062857,16.0078877 16.1062857,15.5195601 L16.1014286,10.6928059 C16.1014286,10.4620043 16.0152143,10.2384912 15.844,10.0599237 C15.6727857,9.88864459 15.4420714,9.80239768 15.2162143,9.80239768 L10.3864286,9.7975387 Z"
+                  transform="translate(12.803750, 13.102539) rotate(-270.000000) translate(-12.803750, -13.102539) "
+                  fill="#ffffff"></path>
+                <path
+                  d="M0.885214286,9.80000305 C0.397071429,9.80000305 0,10.1970745 0,10.6900745 C0,11.1818602 0.397071429,11.5813602 0.885214286,11.5813602 L3.56571429,11.5813602 L0.367357143,14.7845745 C0.0176428571,15.1282173 0.0176428571,15.6940745 0.367357143,16.0377173 C0.713428571,16.3874316 1.27685714,16.3874316 1.62535714,16.0377173 L4.82614286,12.8393602 L4.82614286,15.5198602 C4.82614286,16.0080031 5.22321429,16.4075031 5.715,16.4075031 C6.20314286,16.4075031 6.60507143,16.0080031 6.60507143,15.5198602 L6.60021429,10.6949316 C6.60021429,10.4642173 6.514,10.2407888 6.34278571,10.0622888 C6.17157143,9.89107448 5.94085714,9.80486019 5.715,9.80486019 L0.885214286,9.80000305 Z"
+                  transform="translate(3.302536, 13.103753) rotate(-180.000000) translate(-3.302536, -13.103753) "
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; visibility: hidden; transform: scale(0.9);">
+            <svg width="20" height="20">
+              <g transform="translate(1.900002, 1.699997)">
+                <path
+                  d="M10.3852143,0.196857143 C9.89707143,0.196857143 9.5,0.593928571 9.5,1.08692857 C9.5,1.57871429 9.89707143,1.97821429 10.3852143,1.97821429 L13.0657143,1.97821429 L9.86735714,5.18142857 C9.51764286,5.52507143 9.51764286,6.09092857 9.86735714,6.43457143 C10.2134286,6.78428571 10.7768571,6.78428571 11.1253571,6.43457143 L14.3261429,3.23621429 L14.3261429,5.91671429 C14.3261429,6.40485714 14.7232143,6.80435714 15.215,6.80435714 C15.7031429,6.80435714 16.1050714,6.40485714 16.1050714,5.91671429 L16.1002143,1.09178571 C16.1002143,0.861071429 16.014,0.637642857 15.8427857,0.459142857 C15.6715714,0.287928571 15.4408571,0.201714286 15.215,0.201714286 L10.3852143,0.196857143 Z"
+                  transform="translate(12.802536, 3.500607) rotate(-180.000000) translate(-12.802536, -3.500607) "
+                  fill="#ffffff"></path>
+                <path
+                  d="M0.886428571,0.195642857 C0.398285714,0.195642857 0.00121428571,0.592714286 0.00121428571,1.08571429 C0.00121428571,1.5775 0.398285714,1.977 0.886428571,1.977 L3.56692857,1.977 L0.368571429,5.18021429 C0.0188571429,5.52385714 0.0188571429,6.08971429 0.368571429,6.43335714 C0.714642857,6.78307143 1.27807143,6.78307143 1.62657143,6.43335714 L4.82735714,3.235 L4.82735714,5.9155 C4.82735714,6.40364286 5.22442857,6.80314286 5.71621429,6.80314286 C6.20435714,6.80314286 6.60628571,6.40364286 6.60628571,5.9155 L6.60142857,1.09057143 C6.60142857,0.859857143 6.51521429,0.636428571 6.344,0.457928571 C6.17278571,0.286714286 5.94207143,0.2005 5.71621429,0.2005 L0.886428571,0.195642857 Z"
+                  transform="translate(3.303750, 3.499393) rotate(90.000000) translate(-3.303750, -3.499393) "
+                  fill="#ffffff"></path>
+                <path
+                  d="M10.3864286,9.7975387 C9.89828571,9.7975387 9.50121429,10.1947604 9.50121429,10.6879469 C9.50121429,11.1799187 9.89828571,11.5795699 10.3864286,11.5795699 L13.0669286,11.5795699 L9.86857143,14.7839962 C9.51885714,15.1277691 9.51885714,15.6938403 9.86857143,16.0376132 C10.2146429,16.3874598 10.7780714,16.3874598 11.1265714,16.0376132 L14.3273571,12.8380459 L14.3273571,15.5195601 C14.3273571,16.0078877 14.7244286,16.4075388 15.2162143,16.4075388 C15.7043571,16.4075388 16.1062857,16.0078877 16.1062857,15.5195601 L16.1014286,10.6928059 C16.1014286,10.4620043 16.0152143,10.2384912 15.844,10.0599237 C15.6727857,9.88864459 15.4420714,9.80239768 15.2162143,9.80239768 L10.3864286,9.7975387 Z"
+                  transform="translate(12.803750, 13.102539) rotate(-90.000000) translate(-12.803750, -13.102539) "
+                  fill="#ffffff"></path>
+                <path
+                  d="M0.885214286,9.80000305 C0.397071429,9.80000305 0,10.1970745 0,10.6900745 C0,11.1818602 0.397071429,11.5813602 0.885214286,11.5813602 L3.56571429,11.5813602 L0.367357143,14.7845745 C0.0176428571,15.1282173 0.0176428571,15.6940745 0.367357143,16.0377173 C0.713428571,16.3874316 1.27685714,16.3874316 1.62535714,16.0377173 L4.82614286,12.8393602 L4.82614286,15.5198602 C4.82614286,16.0080031 5.22321429,16.4075031 5.715,16.4075031 C6.20314286,16.4075031 6.60507143,16.0080031 6.60507143,15.5198602 L6.60021429,10.6949316 C6.60021429,10.4642173 6.514,10.2407888 6.34278571,10.0622888 C6.17157143,9.89107448 5.94085714,9.80486019 5.715,9.80486019 L0.885214286,9.80000305 Z"
+                  transform="translate(3.302536, 13.103753) rotate(-360.000000) translate(-3.302536, -13.103753) "
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -17.5px; left: -17.5px; width: 35px; height: 35px; cursor: pointer; pointer-events: auto;">
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv style="position: absolute; left: 955px; top: 1326px; opacity: 1; font-size: 14px; line-height: 1em;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; width: 20px; height: 20px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(1);">
+            <svg width="20" height="20">
+              <g fill-rule="nonzero" transform="translate(2.5, 3)">
+                <path
+                  d="M9.63348214,0.000392953304 C10.6442411,-0.0158124038 10.9386161,0.464991168 10.9173214,2.22789295 C10.9191964,10.3702144 10.9210714,11.2387412 10.9229464,12.1074019 C10.9416964,13.8290537 10.3427679,14.0934287 9.65035714,14.0934287 C7.23642857,14.0934287 5.97334821,10.2128483 3.81897321,10.2128483 L2.78008929,10.2128483 C1.134375,10.2128483 7.99360578e-15,8.75650902 7.99360578e-15,7.11079474 C7.99360578e-15,5.46508045 1.30915179,4.1570001 2.95486607,4.1570001 L3.81897321,4.1570001 C6.20625,4.1570001 6.63763393,0.0487411676 9.63348214,0.000392953304 Z"
+                  fill="#ffffff"></path>
+                <path
+                  d="M12.438976,9.20158565 C11.942101,9.2281035 12.0599581,8.76645172 12.0207171,6.5974785 C11.9806724,4.38457672 11.947726,4.01118386 12.438976,4.00046958 C13.6897349,3.97288029 14.7041099,5.16471065 14.7041099,6.60096065 C14.7041099,8.03734458 13.6900028,9.20158565 12.438976,9.20158565 Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; visibility: hidden; transform: scale(1);">
+            <svg width="20" height="20">
+              <g fill-rule="nonzero" fill="#000000" transform="translate(1.5, 2)">
+                <path
+                  d="M11.9155289,2.79982584 L3.51531341,11.2000413 C2.01393593,11.0533239 1,9.66669363 1,8.11079474 C1,6.46508045 2.30915179,5.1570001 3.95486607,5.1570001 L4.81897321,5.1570001 C7.20625,5.1570001 7.63763393,1.04874117 10.6334821,1.00039295 C11.5570576,0.985585397 11.8825033,1.38574504 11.9155289,2.79982584 Z M11.9181448,6.35871675 C11.9197453,11.6244833 11.9213459,12.3658938 11.9229464,13.1074019 C11.9416964,14.8290537 11.3427679,15.0934287 10.6503571,15.0934287 C8.87828235,15.0934287 7.72640978,13.0021498 6.3868368,11.8900248 L11.9181448,6.35871675 Z"
+                  fill="#ffffff"></path>
+                <path
+                  d="M1.35355339,15.8535534 L15.8621715,1.34493526 C16.0574337,1.14967312 16.0574337,0.833090627 15.8621715,0.637828481 C15.6669094,0.442566335 15.3503269,0.442566335 15.1550647,0.637828481 L0.646446609,15.1464466 C0.451184464,15.3417088 0.451184464,15.6582912 0.646446609,15.8535534 C0.841708755,16.0488155 1.15829124,16.0488155 1.35355339,15.8535534 Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -17.5px; left: -17.5px; width: 35px; height: 35px; cursor: pointer; pointer-events: auto;">
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; top: 1460px; left: 1090px; opacity: 1; font-size: 14px; line-height: 1em; z-index: 11; transform: rotate(270deg); visibility: hidden;">
+        <pjsdiv
+          style="position: absolute; top: -8px; left: -50px; width: 100px; height: 17px; border-radius: 0px; background-color: rgb(0, 0, 0); opacity: 0; pointer-events: auto; transition: opacity 0.1s linear 0s, background 0.1s linear 0s; cursor: pointer;">
+        </pjsdiv>
+        <pjsdiv style="position: absolute; bottom: -3px; left: -50px; width: 100px;">
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 100px; height: 7px; background: rgb(255, 255, 255); border-radius: 3.5px; opacity: 0.3; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 0px; height: 7px; border-radius: 3.5px; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+          <pjsdiv
+            style="position: absolute; bottom: 0px; left: 0px; width: 80px; height: 7px; background: rgb(64, 128, 255); border-radius: 3.5px; opacity: 1; pointer-events: none; transition: transform 0.2s ease-in-out 0s;">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; top: -10px; left: 20px; pointer-events: none; height: 20px; width: 20px; opacity: 1; transition: transform 0.1s linear 0s, opacity 0.1s linear 0s; transform: scale(1.6);">
+          <svg width="20" height="20">
+            <g>
+              <ellipse ry="5" rx="5" cy="10" cx="10" fill="#fff"></ellipse>
+            </g>
+          </svg></pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 490px; top: 671.5px; opacity: 1; font-size: 14px; line-height: 1em; display: block; visibility: visible;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 9px; background: rgb(0, 0, 0); opacity: 0.3; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; cursor: pointer; pointer-events: auto; transform: scale(4);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -10px; left: -10px; pointer-events: none; opacity: 1; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; width: 20px; height: 20px; transform: scale(4);">
+            <svg width="20px" height="20px" viewBox="355 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink">
+              <g id="play19" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                transform="translate(356.000000, 1.000000)">
+                <path
+                  d="M6.5,6.10083004 C6.5,4.62170406 7.04296875,4.91259762 7.94018555,5.37268062 C8.83740234,5.83276363 11.8254395,7.54016109 12.5097656,7.92834469 C13.1940918,8.31652828 13.727417,8.93994137 12.5776367,9.65173336 C11.4278564,10.3635253 9.42919922,11.5830078 7.96459961,12.3348388 C6.5,13.0866699 6.5,12.9068603 6.5,11.6646728 C6.5,10.4224853 6.5,7.57995601 6.5,6.10083004 Z"
+                  id="Path-2" fill="#ffffff"></path>
+                <circle id="Oval" stroke="#ffffff" cx="9" cy="9" r="9"></circle>
+              </g>
+            </svg></pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 988.5px; top: 1326px; opacity: 1; font-size: 14px; line-height: 1em; pointer-events: none; display: none;">
+        <pjsdiv>
+          <pjsdiv
+            style="position: absolute; top: -7px; left: -18.5px; width: 37px; height: 14px; border-radius: 0px; background: rgb(0, 0, 0); opacity: 0; transition: opacity 0.1s linear 0s, background 0.1s linear 0s, transform 0.1s linear 0s; cursor: default; transform: scale(1);">
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv style="position: absolute; left: 0px; top: 0px;">
+          <pjsdiv
+            style="position: absolute; top: -7px; left: -18px; pointer-events: none; opacity: 0.5; transition: opacity 0.1s linear 0s, transform 0.1s linear 0s; color: rgb(255, 255, 255); font-size: 10px; font-family: Verdana; letter-spacing: 2px; padding: 0px 3px; white-space: nowrap; transform: scale(1);">
+            LIVE</pjsdiv>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="overflow: hidden; display: block; opacity: 0; border-radius: 0px; z-index: 1100; max-height: 1245px; position: absolute; right: -17px; left: auto; top: -2000px; visibility: hidden;">
+        <pjsdiv id="playerjs_settings"
+          style="position: relative; top: 0px; left: 0px; display: block; width: 100%; padding: 0px 20px 0px 0px; color: rgb(255, 255, 255); font-size: 12px; font-family: arial, helvetica, sans-serif; letter-spacing: 0px; overflow-y: scroll; max-height: 1245px;">
+          <pjsdiv style="display: block; overflow: hidden; border-radius: 0px;">
+            <pjsdiv fid="1"
+              style="position: absolute; right: 0px; top: -100px; cursor: pointer; height: auto; width: 100%; overflow: hidden; display: block; line-height: 1.5em; visibility: hidden;">
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.7; pointer-events: none; transition: opacity 0.2s ease-out 0s, background 0.2s ease-out 0s, filter 0.2s ease-out 0s;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; pointer-events: none;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: left; color: rgb(255, 255, 255); padding: 7px 10px 7px 15px; pointer-events: none; opacity: 1; transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                Quality</pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: right; padding-top: 7px; padding-right: 10px; padding-left: 15px; pointer-events: none; font-size: 10px; opacity: 1; color: rgb(255, 221, 31); transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                1 &nbsp;<svg width="5px" height="7px" viewBox="-1 -1 5 8" version="1.1"
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <polyline stroke="#ffdd1f" stroke-width="1" fill="none" points="0 0 3 3 0 6"></polyline>
+                </svg></pjsdiv>
+            </pjsdiv>
+            <pjsdiv fid="2"
+              style="position: absolute; right: 0px; top: -100px; cursor: pointer; height: auto; width: 100%; overflow: hidden; display: block; line-height: 1.5em; visibility: hidden;">
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.7; pointer-events: none; transition: opacity 0.2s ease-out 0s, background 0.2s ease-out 0s, filter 0.2s ease-out 0s;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; pointer-events: none;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: left; color: rgb(255, 255, 255); padding: 7px 10px 7px 15px; pointer-events: none; opacity: 1; transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                Audio</pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: right; padding-top: 7px; padding-right: 10px; padding-left: 15px; pointer-events: none; font-size: 10px; opacity: 1; color: rgb(255, 221, 31); transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+              </pjsdiv>
+            </pjsdiv>
+            <pjsdiv fid="3"
+              style="position: absolute; right: 0px; top: -100px; cursor: pointer; height: auto; width: 100%; overflow: hidden; display: block; line-height: 1.5em; visibility: hidden;">
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.7; pointer-events: none; transition: opacity 0.2s ease-out 0s, background 0.2s ease-out 0s, filter 0.2s ease-out 0s;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; pointer-events: none;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: left; color: rgb(255, 255, 255); padding: 7px 10px 7px 15px; pointer-events: none; opacity: 1; transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                Subtitle</pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: right; padding-top: 7px; padding-right: 10px; padding-left: 15px; pointer-events: none; font-size: 10px; opacity: 1; color: rgb(255, 221, 31); transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+              </pjsdiv>
+            </pjsdiv>
+            <pjsdiv fid="4"
+              style="position: relative; right: 0px; top: 0px; cursor: pointer; height: auto; width: 100%; overflow: hidden; display: block; line-height: 1.5em; visibility: visible;">
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(0, 0, 0); opacity: 0.7; pointer-events: none; transition: opacity 0.2s ease-out 0s, background 0.2s ease-out 0s, filter 0.2s ease-out 0s;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: absolute; right: 0px; top: 0px; width: 100%; height: 100%; pointer-events: none;">
+              </pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: left; color: rgb(255, 255, 255); padding: 7px 10px 7px 15px; pointer-events: none; opacity: 1; transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                Speed</pjsdiv>
+              <pjsdiv
+                style="position: relative; right: 0px; top: 0px; float: right; padding-top: 7px; padding-right: 10px; padding-left: 15px; pointer-events: none; font-size: 10px; opacity: 1; color: rgb(255, 221, 31); transition: opacity 0.2s linear 0s, color 0.2s linear 0s; white-space: nowrap;">
+                Normal &nbsp;<svg width="5px" height="7px" viewBox="-1 -1 5 8" version="1.1"
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <polyline stroke="#ffdd1f" stroke-width="1" fill="none" points="0 0 3 3 0 6"></polyline>
+                </svg></pjsdiv>
+            </pjsdiv>
+          </pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; display: inline-block; width: 1903px; height: 40px; text-align: center; pointer-events: none; top: -1px; left: 0px; visibility: hidden;">
+          <center>
+            <div style="pointer-events:auto;cursor:pointer;width:20px;height:20px;border-radius:20px;margin-top:10px;"
+              bis_skin_checked="1"><svg width="20" height="20" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <line x1="5" y1="12" x2="10" y2="7" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                  <line x1="10" y1="7" x2="15" y2="12" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                </g>
+              </svg></div>
+          </center>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; display: inline-block; width: 1903px; height: 40px; text-align: center; pointer-events: none; bottom: -1px; left: 0px; visibility: hidden;">
+          <center>
+            <div style="pointer-events:auto;cursor:pointer;width:20px;height:20px;border-radius:20px;margin-top:10px;"
+              bis_skin_checked="1"><svg width="20" height="20" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <line x1="5" y1="8" x2="10" y2="13" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                  <line x1="10" y1="13" x2="15" y2="8" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                </g>
+              </svg></div>
+          </center>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="overflow: hidden; display: block; opacity: 0; border-radius: 0px; z-index: 99; visibility: hidden; top: -2000px; max-height: 1245px; position: absolute; left: 0px; right: auto;">
+        <pjsdiv id="playerjs_playlist"
+          style="position: relative; top: 0px; left: 0px; display: block; width: 100%; padding: 0px 20px 0px 0px; color: rgb(255, 255, 255); font-size: 12px; font-family: arial, helvetica, sans-serif; letter-spacing: 0px; overflow: hidden scroll; max-height: 1245px;">
+          <pjsdiv style="display: block; overflow: hidden; border-radius: 0px;"></pjsdiv>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; display: inline-block; width: 100%; height: 40px; text-align: center; pointer-events: none; top: -1px; left: 0px; visibility: hidden;">
+          <center>
+            <div style="pointer-events:auto;cursor:pointer;width:20px;height:20px;border-radius:20px;margin-top:10px;"
+              bis_skin_checked="1"><svg width="20" height="20" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <line x1="5" y1="12" x2="10" y2="7" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                  <line x1="10" y1="7" x2="15" y2="12" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                </g>
+              </svg></div>
+          </center>
+        </pjsdiv>
+        <pjsdiv
+          style="position: absolute; display: inline-block; width: 100%; height: 40px; text-align: center; pointer-events: none; bottom: -1px; left: 0px; visibility: hidden;">
+          <center>
+            <div style="pointer-events:auto;cursor:pointer;width:20px;height:20px;border-radius:20px;margin-top:10px;"
+              bis_skin_checked="1"><svg width="20" height="20" xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <line x1="5" y1="8" x2="10" y2="13" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                  <line x1="10" y1="13" x2="15" y2="8" stroke="#ffffff" stroke-width="1" stroke-linecap="round"></line>
+                </g>
+              </svg></div>
+          </center>
+        </pjsdiv>
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 0px; top: 0px; width: 100%; height: 24px; background-color: rgb(255, 0, 0); opacity: 1; display: block; z-index: 1005;">
+      </pjsdiv>
+      <pjsdiv
+        style="position: absolute; left: 0px; top: 0px; width: 100%; color: rgb(255, 255, 255); font-size: 10px; padding: 5px 10px; display: block; z-index: 1006;">
+        manifestLoadError (networkError)</pjsdiv>
+    </pjsdiv>
+  </div>
+
+  <script type="text/javascript">
+    var ps = location.href.substr(location.href.indexOf("html?") + 5).split("&");
+    var vs = {id: "playerjs"};
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i].substr(0, ps[i].indexOf("="));
+      var v = ps[i].substr(ps[i].indexOf("=") + 1);
+      if (p != v) {
+        vs[p] = decodeURIComponent(v);
+      }
+    }
+    if (vs.file) {
+      var playerjs = new Playerjs(vs);
+    }
+  </script>
+
+</body>
+
+</html>
