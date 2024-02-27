@@ -8,3 +8,4 @@
 
 # PLAYER :https://playidtv24.vercel.app/Player.html?sv=
 
+#m3u8player :https://www.ทีวีท้องถิ่นไทย.com/play.php?url=
