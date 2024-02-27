@@ -1,0 +1,50 @@
+
+<html> 
+    <head> 
+        <title>Test</title> 
+        <meta content="width=device-width, initial-scale=1" name="viewport"> 
+        <link href="favicon2.ico" rel="shortcut icon" type="image/x-icon"> 
+        <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-core@latest/build/p2p-media-loader-core.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@latest/build/p2p-media-loader-hlsjs.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/clappr.level-selector/latest/level-selector.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/clappr.chromecast-plugin/latest/clappr-chromecast-plugin.js"></script> 
+    	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-stats/dist/clappr-stats.min.js"></script> 
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-nerd-stats/dist/clappr-nerd-stats.min.js"></script> 
+        <style> 
+          .player { 
+            width: 100vw; 
+            height: 100vh; 
+          } 
+        </style> 
+		<style type="text/css">body{margin:0 auto;}</style>
+    </head> 
+    <body> 
+        <div class="player"></div> 
+        <script> 
+               if (p2pml.hlsjs.Engine.isSupported()) { 
+                var engine = new p2pml.hlsjs.Engine(); 
+                var player = new Clappr.Player({ 
+                source: '.m3u8', 
+                plugins: [LevelSelector, ChromecastPlugin], 
+                parentId: '.player', 
+                autoPlay: false, 
+                mute: false, 
+    			hideVolumeBar: true, 
+                width: '100vw', 
+                height: '100vh', 
+                playback: { 
+                        hlsjsConfig: { 
+                            liveSyncDurationCount: 7, 
+                            loader: engine.createLoaderClass(), 
+                        } 
+                } 
+            }) 
+                p2pml.hlsjs.initClapprPlayer(player); 
+            } else { 
+                document.write("Not supported :("); 
+                }; 
+        </script> 
+    </body> 
+    </html>
+	
