@@ -10,4 +10,6 @@
 
 # M3U8PLAYER :https://www.ทีวีท้องถิ่นไทย.com/play.php?url=
 
+# คลิปสอนวิธีอัพไฟล์ HTML :https://dai.ly/k6B3VwQJexX1LqA5FmS
 
+# คลิปสอนวิธีเพิ่มไฟล์ :https://dai.ly/k1mp2D0iinpoPqA5Fpq
