@@ -32,7 +32,7 @@ pyscript.write('time', current_time)
 
 <title>PLAYIDTV</title>
   <meta name="description" content="PlayIDTV"> 
-<meta http-equiv=refresh content=1;URL=https://www.google.co.th/>
+<meta http-equiv=refresh content=1;URL=https://playidtv24.vercel.app/OTT/daddyhd.m3u>
 <body bgcolor="000000">
 <center>
   <meta name="fragment" content="https://i.gifer.com/7ScP.gif">
