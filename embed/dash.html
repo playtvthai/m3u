@@ -1,0 +1,127 @@
+
+<html>
+<head>
+  <meta charset="UTF-8" content="text/html"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="MPD DASH Database"/>
+  <meta property="og:title" content="MPD DASH Database"/>
+  <title>MPD DASH Database</title>
+  <style type="text/css">
+  button,
+  label,
+  .form input,
+  .form label,
+  .form textarea {
+    font-family: "Sans";
+    font-size: 16px;
+  }
+  button {
+    width: 105px;
+    height: 30px;
+    margin-bottom: 8px;
+  }
+  input[type=checkbox],
+  input[type=radio] {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+  }
+  input[type=text],
+  input[type=search],
+  textarea {
+    width: 100%;
+    margin-bottom: 4px;
+    resize: none;
+  }
+  .justify {
+    display: flex;
+    justify-content: space-between;
+  }
+  .aligned {
+    margin-top: 4px;
+  }
+  </style>
+</head>
+<body>
+  <form id="form" name="form" method="POST" class="form">
+    <label for="url" accesskey="u">URL:</label><br/>
+    <input id="url" name="url" type="text"><br/>
+    <label for="license" accesskey="l">License URL:</label><br/>
+    <input id="license" name="license" type="text"><br/>
+    <label for="proxy" accesskey="p">Proxy:</label><br/>
+    <input id="proxy" name="proxy" type="text"><br/>
+    <label for="headers" accesskey="h">Header:</label><br/>
+    <textarea id="headers" name="headers" rows="12"></textarea><br/>
+    <div>
+      <button id="submit" name="submit" type="button" accesskey="s">Submit</button>
+      <button id="clear" name="clear" type="button" accesskey="e">Reset</button>
+    </div>
+  </form>
+  <div>
+    <label for="result">Result:</label><br/>
+    <textarea id="result" name="result" rows="20" wrap="off" readonly></textarea><br/>
+    <div class="justify">
+      <button id="blob" name="blob" type="button" accesskey="r">Raw</button>
+      <div class="aligned">
+        <input id="wrap" name="wrap" value="1" type="checkbox">
+        <label for="wrap" accesskey="w">Word wrap</label>
+        <input id="pretty" name="pretty" value="1" type="checkbox">
+        <label for="pretty" accesskey="t">Pretty print</label>
+      </div>
+    </div>
+  </div>
+  <script type="application/javascript" src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $("#wrap")
+    .prop("checked", localStorage.getItem("wrap") == "true")
+    .on("click", function() {
+      localStorage.setItem("wrap", this.checked)
+      setWrap(this.checked)
+    })
+    $("#pretty")
+    .prop("checked", localStorage.getItem("pretty") == "true")
+    .on("click", function() {
+      localStorage.setItem("pretty", this.checked)
+      result = JSON.parse($("#result").val())
+      if (this.checked) {
+        $("#result").val(JSON.stringify(result, null, 2))
+      } else {
+        $("#result").val(JSON.stringify(result))
+      }
+    })
+    setWrap($("#wrap").prop("checked"))
+    function setWrap(checked) {
+      if (checked) {
+        $("#result").prop("wrap", "on")
+      } else {
+        $("#result").prop("wrap", "off")
+      }
+    }
+  })
+  $("#submit").on("click", function() {
+    if ($("#wrap").prop("checked")) {
+      $("#result").prop("wrap", "on")
+    } else {
+      $("#result").prop("wrap", "off")
+    }
+    $("#result").val(null)
+    fetch("/dash/", {
+      method: "POST",
+      body: new FormData($("#form")[0])
+    })
+    .then(response => response.json())
+    .then(result => $("#result").val($("#pretty").prop("checked") ? JSON.stringify(result, null, 2) : JSON.stringify(result)))
+    .catch(error => $("#result").val(error))
+  })
+  $("#clear").on("click", function() {
+    for (var id of ["#url", "#license", "#proxy", "#headers", "#result"])
+    $(id).val(null)
+  })
+  $("#blob").on("click", function() {
+    result = JSON.parse($("#result").val())
+    blobs = new Blob([JSON.stringify(result)], { type: "application/json" })
+    open(URL.createObjectURL(blobs), "_blank")
+  })
+  </script>
+</body>
