@@ -1,0 +1,208 @@
+/*Box Tded Zean*/
+  .tded-zean {
+    font-family: 'Prompt', sans-serif;
+    background-image:url(https://img5.pic.in.th/file/secure-sv1/0f69e91e749dcd0e1249ff721b62c537.png); 
+    background-repeat:repeat-y; 
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .tded-zean h2 {
+    padding: 0px;
+    color: #fff;
+    font-size: 18px!important;
+    margin: 0px;
+  }
+  .in-tded-zean {
+    background-color: #101010;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-zean {
+    background-repeat:repeat-y; 
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }  
+  .box-tded-zean {
+    background-image:url(../img/bg-bundes.png); 
+    background-repeat:repeat-y; 
+    background-color: #ebcb7b;
+    padding: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .inbox-tded-zean {
+    background-color: #000;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-tded {
+    background-image:url(../img/bg-tded.png); 
+    background-repeat:repeat-y; 
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-tded h2 {
+    padding: 0px;
+    color: #fff;
+    font-size: 18px!important;
+    margin: 0px;
+  }
+  .table-tded {
+    background-image:url(../img/bg-tded.png); 
+    background-repeat:repeat-y; 
+    font-weight: bolder;
+    color: #ffffff;
+  }
+  .box-analyze {
+    background-image:url(../img/bg-analyze.png); 
+    background-repeat:repeat-y; 
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-analyze h2 {
+    padding: 0px;
+    color: #fff;
+    font-size: 18px!important;
+    margin: 0px;
+  }
+  .box-premier {
+    background-image:url(../img/bg-premier.png); 
+    background-repeat:repeat-y; 
+    background-color: #a90329;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-laliga {
+    background-image:url(../img/bg-laliga.png); 
+    background-repeat:repeat-y; 
+    background-color: #00b396;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-serie-a {
+    background-image:url(../img/bg-serie-a.png); 
+    background-repeat:repeat-y; 
+    background-color: #0096ab;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-bundes {
+    background-image:url(../img/bg-bundes.png); 
+    background-repeat:repeat-y; 
+    background-color: #cb0909;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-uefa {
+    background-image:url(../img/bg-uefa.png); 
+    background-repeat:repeat-y; 
+    background-color: #646464;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-thai {
+    background-image:url(../img/bg-thai.png); 
+    background-repeat:repeat-y; 
+    background-color: #c1def9;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+/*Box Member*/
+  .box-member {
+    background-image:url(../img/bg-box-member.png); 
+    background-repeat:repeat-y; 
+    background-color: #00ea1f;
+    color: #fff;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-member a {
+    color: #fff;
+  }
+  .box-member a:hover {
+    color: #ebcb7b;
+    text-decoration: none;
+  }
+/*Box Fanpage*/
+  .box-fanpage {
+    background-image:url(../img/bg-fb.png); 
+    background-repeat:repeat-y; 
+    background-color: #d5d2d2;
+  }
+/*Box Clip*/
+  .box-clip {
+    background-repeat:repeat-y; 
+    background-color: #00bd29;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+/*Box Sport*/
+  .box-sport {
+    background-image:url(../img/bg-sport-news.png); 
+    background-repeat:repeat-y; 
+    background-color: #d5e020;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
