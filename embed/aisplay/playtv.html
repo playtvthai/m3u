@@ -1,0 +1,317 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+ 
+	<meta name="description" content="ดูทีวีออนไลน์">
+    <meta name="author" content="index.html">
+    <meta name="robots" content="index,follow">
+	<meta property="og:url"content="" />
+
+	<meta property="og:image:alt"content="ดูบอลสดออนไลน์" />
+   <!-- Bootstrap Core CSS -->
+    <link href="/embed/bootstrap.css" rel="stylesheet">
+    <!-- Theme CSS -->
+    <link href="embed/theme.css" rel="stylesheet">
+    <!-- Main CSS -->
+    <link href="/embed/home.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+   <link href="/embed/font-awesome.min.css" rel="stylesheet" type="text/css">
+<style type="text/css"> 
+body {
+			background-color: #000000;
+			background-image: url(/);
+			background-repeat: repeat;	
+			background-attachment:fixed;
+			}
+	.container-ghost .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .tded-zean .in-tded-zean .row .col-sm-12.col-md-12.col-lg-12.box-title h2 {
+	color: #06F;
+}
+    .container-ghost .row .col-xs-12.col-sm-9.col-md-9.col-lg-9 .box-tded .inbox-tded-zean .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .table-responsive .table.table-hover tbody tr td {
+	color: #000;
+}
+    .container-ghost .row .col-xs-12.col-sm-9.col-md-9.col-lg-9 .box-analyze .inbox-tded-zean .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .table-responsive .table.table-hover tbody tr h4 td {
+	font-size: 14px;
+}
+    .container-ghost .row .col-xs-12.col-sm-9.col-md-9.col-lg-9 .box-analyze .inbox-tded-zean .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .table-responsive .table.table-hover tbody tr td {
+	font-size: 14px;
+}
+iframe {
+  overflow: hidden;
+} 
+
+.no-channel-message {
+        font-size: 24px;
+        color: #888;
+        margin-top: 50px;
+    }
+    
+    .tv-list-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    
+    .tv-list-title i {
+        font-size: 36px;
+        color: #00fd24;
+        margin-right: 10px;
+    }
+    
+    .tv-list-title h2 {
+        font-size: 36px;
+        color: #2aaa07;
+        margin: 0;
+    }
+    
+    #tv-player {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 30px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    #tv-player iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+    
+    .tv-list {
+        margin-top: 30px;
+    }
+    
+    .tv-item {
+        cursor: pointer;
+        border-radius: 2px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+        width: 100%;
+        height: auto;
+    }
+    
+    .tv-item:hover {
+        transform: translateY(-5px);
+    }
+    
+	.tv-thumbnail {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+        height: 100px;
+    }
+    
+    .card-body {
+        padding: 10px;
+        background-color: #70BBEA;
+    }
+    
+    .card-text {
+        margin: 0;
+        font-size: 13px;
+        text-align: center;
+        color: #FF0034;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+	
+	@media (max-width: 600px) {
+            .row.tv-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .row.tv-list .col-md-3 {
+                flex: 0 0 25%;
+                max-width: 25%;
+                padding: 5px;
+            }
+            .row.tv-list .tv-item {
+                margin-bottom: 10px;
+            }
+            .row.tv-list .tv-thumbnail {
+                height: 60px;
+            }
+            .row.tv-list .card-body {
+                padding: 5px;
+            }
+            .row.tv-list .card-text {
+                font-size: 12px;
+            }
+            .row.tv-list .no-channel-message {
+                font-size: 24px;
+                margin-top: 30px;
+            }
+        }
+		@media screen and (max-width: 600px) {
+    .league-header {
+        font-size: 16px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    td {
+        padding: 4px;
+    }
+
+    td img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .btn-xs {
+        font-size: 12px;
+        padding: 2px 6px;
+    }
+
+    td:nth-child(2), td:nth-child(6) {
+        font-size: 14px;
+        width: 25%;
+    }
+
+    td:nth-child(3) {
+        width: 22%;
+    }
+
+	td:nth-child(5){
+		width: 20%;
+	}
+
+    td:nth-child(4) {
+        width: 30%;
+    }
+
+    td:nth-child(4) img {
+        width: 51px;
+    }
+}
+</style>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	
+	
+
+
+	<header>
+
+
+
+<h2><i class="glyphicon glyphicon-play-circle" style="color: #fff;"></i>&nbsp;<span style="color: #000;">ดูทีวีออนไลน์</span></h2>
+<div id="tv-player"></div>
+<div class="row tv-list">
+    <div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0001/HLS/V0001.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0001.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">NBT</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0014/HLS/V0014.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0014.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">PBS</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0085/HLS/V0085.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/ALTV.PNG" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">ALTV</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0007/HLS/V0007.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon//0007.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">CH5</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0129/HLS/V0129.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/T-SPorts_7_Final.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">TS7</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0048/HLS/V0048.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/0048.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">TPTV</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0010/HLS/V0010.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE//channelicon/JKN18.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">JKN18</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0015/HLS/V0015.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0015_R.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">WP</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/B0054/HLS/B0054.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0054.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">True4u</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0016/HLS/V0016.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0016.png" class="card-img-top tv-thumbnail">
+<div class="card-body"><p class="card-text">MONO</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/B0006/HLS/B0006.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon//0006.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">CH8</p></div></div></div><div class="col-md-3"><div class="card tv-item" data-link="https://playidtv24.vercel.app/Player.html?sv=https://cors-proxy.elfsight.com/https://49-231-34-108-rewriter.ais-vidnt.com/ais/play/origin/live/eds/V0019/HLS/V0019.m3u8"><img src="https://ais-s.ais-vidnt.com/ais/play/origin/LIVE/channelicon/0019.png" class="card-img-top tv-thumbnail"><div class="card-body"><p class="card-text">GMM25</p></div></div></div></div>
+
+
+						
+				
+
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4787571,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+</noscript>
+<!-- Histats.com  END  -->            		</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<style>
+   /* scrollbar Color */
+body::-webkit-scrollbar {
+ width: 16px; /* กำหนดความกว้างของ scroll */
+}
+body::-webkit-scrollbar-track {
+ background: #222; /* สีพื้นหลัง scroll */
+}
+body::-webkit-scrollbar-thumb {
+ background-color: #3333; /* กำหนดสีของแถบเลื่อน scroll */
+ border-radius: 20px; /* กำหนดความโค้งมนของแถบเลื่อน scroll */
+ border: 6px solid #000; /* กำหนดกรอบเพื่อเว้นระยะรอบแถบเลื่อน scroll */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #111; 
+}
+
+  .box-analyze-clip {
+    background-color:#12db15;
+    background-repeat:repeat-y; 
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+  .box-analyze-clip h2 {
+    padding: 0px;
+    color: #fff;
+    font-size: 18px!important;
+    margin: 0px;
+  }
+</style>
+<!-- Footer -->
+	
+
+<!-- jQuery -->
+<script src="/embed/jquery.js"></script>
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/embed/bootstrap.min.js"></script>
+<script src="/embed/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".tv-item").click(function() {
+                var tvLink = $(this).data("link");
+                var iframe = '<iframe src="' + tvLink + '" width="100%" height="500" allowfullscreen></iframe>';
+                $("#tv-player").html(iframe);
+            });
+        });
+    </script>
+<script type="text/javascript">
+	resizeListing();
+	 $(window).resize(function(e) {
+		 resizeListing();	
+		});
+	function resizeListing()
+{
+	// auto category height
+	var listing_item = $('.box-exclusive');
+	if(listing_item.length > 0) {
+		var divHeight = 0;
+		$.each(listing_item, function(i,n){
+
+			var currHeight = $(n).height();
+			if(currHeight > divHeight) divHeight = currHeight;
+		});
+		listing_item.height(divHeight);
+	}}
+</script>
+</body>
