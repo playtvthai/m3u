@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    #myElement {
+      width: 100%;
+      height: 95%;
+    }
+  </style>
+</head>
+<body>
+  <div id="myElement"></div>
+  <script>
+    fetch('/api/love4k.json')
+      .then(response => response.json())
+      .then(data => {
+        var playerInstance = jwplayer("myElement");
+        playerInstance.setup({
+          file: data.linkvideo,
+	    	    drm: {
+	        clearkey: {
+	          key: '45906f0ddd1e4c28ba9e9dc138d75da8',
+	          keyId: '7d0b58f6ba324ad5bf123a8098e3ad2f'
+	        }
+	      },
+          width: "100%",
+          height: "100%",
+          stretching: "uniform",
+          allowFullscreen: true
+        });
+        document.title = data.title;
+      });
+  </script>
+</body>
+</html>
