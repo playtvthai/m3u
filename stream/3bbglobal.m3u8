@@ -1,0 +1,4 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000
+http://kungtv.net:2095/play/live.php?mac=10:27:BE:15:b9:72&stream=813042&&extension=m3u8
