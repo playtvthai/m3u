@@ -1,0 +1,4 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=25413520,FRAME-RATE=
+https://cdn-mfixer-20g.ndos.stream:8082/mfixer/mono29plus/playlist.m3u8
