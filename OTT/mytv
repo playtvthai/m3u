@@ -1,4 +1,5 @@
-#EXTM3U.m3u8
+#EXTM3U url="https://playidtv24.vercel.app/EPG/thailand.xml",
+
 #EXTINF:-1 tvg-id="TV1" tvg-name="tv1" tvg-logo="https://rtm-images.glueapi.io/320x0/live_channel/tv1_bckg.png" group-title="MALAYSIA",tv1
 https://proxyapi.guvon.live/102.129.138.126:7090/w.nasvpn.xyz:25461/live/haji/haji/4.m3u8
 #EXTINF:-1 tvg-id="TV2" tvg-name="tv2" tvg-logo="https://divign0fdw3sv.cloudfront.net/Images/ChannelLogo/contenthub/396_144.png" group-title="MALAYSIA",tv2
