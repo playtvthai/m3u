@@ -1,0 +1,5 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=100000
+http://keycdn.co:80/play/live.php?mac=00:1a:79:ac:1a:53&stream=558575&extension=m3u8&play_token
+
