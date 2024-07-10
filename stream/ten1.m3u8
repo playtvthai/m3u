@@ -2,4 +2,5 @@
 #EXT-X-TARGETDURATION:10
 #EXT-X-MEDIA-SEQUENCE:0
 #EXTINF:10,
-http://xtv.ooo:8080/live/RiyazMPT/433833/109983.ts
+http://103.106.238.11:81/play/a05y
+#http://xtv.ooo:8080/live/RiyazMPT/433833/109983.ts
