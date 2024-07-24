@@ -7,6 +7,7 @@
 
 # MXPLAYER ONLINE :https://playidtv24.vercel.app/Player.html?sv=
 
+https://www.kankanzhibo.com/tv_player/clappr.php?url=
 
 # M3U8 PLAYER :[https://www.ทีวีท้องถิ่นไทย.com/play.php?url=](https://playhls.com/?url=m3u8)
 
