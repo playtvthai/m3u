@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Base64 to Hex Conversion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      display: block;
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button.copy-button-green {
+      background-color: #4CAF50;
+    }
+
+    button:not(.copy-button-green) {
+      background-color: #007BFF;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background-color: #f5f5f5;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+  </style>
+  <script>
+    function convertBase64ToHex() {
+      var inputData = document.getElementById("inputData").value;
+      var data = JSON.parse(inputData);
+
+      var output = '';
+      for (var i = 0; i < data.keys.length; i++) {
+        if (data.keys[i].k) {
+          var kidHex = b64ToHex(data.keys[i].kid);
+          var kHex = b64ToHex(data.keys[i].k);
+          output += kidHex + ':' + kHex + '\n';
+        }
+      }
+
+      document.getElementById("output").innerText = output.trim();
+      document.getElementById("copyButton").classList.remove("copy-button-green");
+    }
+
+    function copyOutput() {
+      var outputText = document.getElementById("output").innerText;
+      var tempElement = document.createElement("textarea");
+      tempElement.value = outputText;
+      document.body.appendChild(tempElement);
+      tempElement.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempElement);
+      document.getElementById("copyButton").classList.add("copy-button-green");
+    }
+
+    function b64ToHex(base64) {
+      var regex = /^[A-Za-z0-9_-]+$/;
+      var bytes = regex.test(base64) ? atob(base64.replace(/-/g, '+').replace(/_/g, '/')) : atob(base64);
+      var hex = '';
+      for (var i = 0; i < bytes.length; i++) {
+        var charCode = bytes.charCodeAt(i).toString(16);
+        hex += charCode.length === 1 ? '0' + charCode : charCode;
+      }
+      return hex;
+    }
+    
+    function pasteInput() {
+      navigator.clipboard.readText()
+        .then(text => {
+          document.getElementById("inputData").value = text;
+        })
+        .catch(err => {
+          console.error('Failed to read clipboard contents: ', err);
+        });
+    }
+
+    function reloadPage() {
+      location.reload();
+    }
+  </script>
+</head>
+<body>
+  <h1>JSON Base64 to Hex ClearKey Conversion</h1>
+  <div>
+    <label for="inputData">Input Data:</label>
+    <textarea id="inputData" rows="5" placeholder='{ "keys":[{"kty":"oct","k":"tQ0bJVWb6b0KPL6KtZIy_A","kid":"LwVHf8JLtPrv2GUXFW2v_A"}],"type":"temporary" }'></textarea>
+  </div>
+  <button onclick="pasteInput()">Paste</button>
+  <button onclick="convertBase64ToHex()">Convert</button>
+  <pre id="output"></pre>
+  <button id="copyButton" onclick="copyOutput()">Copy Output</button>
+  <button onclick="reloadPage()">Reload</button>
+</body>
+</html>
