@@ -1,4 +1,4 @@
-#EXTM3U "url=""
+#EXTM3U "url="https://playidtv24.vercel.app/OTT/movie&series.txt"
 
 # อัพเดทล่าสุด วันที่ 30/07/24
 # ดูผ่านแอพ OTTNavigate แอดมินแนะนำ
