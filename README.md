@@ -7,13 +7,20 @@
 
 # MXPLAYER ONLINE :https://playidtv24.vercel.app/Player.html?sv=
 
-https://www.kankanzhibo.com/tv_player/clappr.php?url=
+![tv_banner](https://github.com/user-attachments/assets/bf023324-d93a-4a67-acdf-d20f0c6c3443)
+
+#https://www.kankanzhibo.com/tv_player/clappr.php?url=
 
 # M3U8 PLAYER :[https://www.ทีวีท้องถิ่นไทย.com/play.php?url=](https://playhls.com/?url=m3u8)
 
-# OTT/daddyhd.m3u
 
+# 
 # ส่วนหัว :https://playidtv2.github.io/m3u/
 
-
+# หน้าแรก
 # URL https://playidtv24.vercel.app
+
+Link M3U
+/OTT/playidtvnew2.html
+Link W3U
+/wiesplay
