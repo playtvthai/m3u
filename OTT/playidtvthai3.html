@@ -82,5 +82,35 @@ https://49-231-37-37-rewriter.ais-vidnt.com/ais/play/anevia/live/eds/OL024/DASH/
 
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="10;url=  ">
+    <title>TO PLAYLIST</title>
 
+            
+    <script>
+        function updateCountdown(seconds) {
+            document.getElementById('countdown').textContent = `Redirecting in ${seconds} seconds...`;
+        }
+
+        function redirect() {
+            window.location.href = 'https://drzl.short.gy/playidtvnew2.html';
+        }
+
+        const delay = 0;
+
+        setTimeout(redirect, delay);
+
+        let secondsLeft = Math.ceil(delay / 0);
+        const countdownInterval = setInterval(function() {
+            updateCountdown(secondsLeft);
+            secondsLeft--;
+
+            if (secondsLeft < 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 10);
+    </script>
 
