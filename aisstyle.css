@@ -26,7 +26,7 @@ body {
 
 .video-container {
     flex: 3; /* Increase flex value to take more space */
-    height: 40%; /* Ensure it takes up most of the screen height */
+    height: 70%; /* Ensure it takes up most of the screen height */
 }
 
 .video-js {
