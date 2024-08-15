@@ -1,40 +1,10 @@
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="10;url= ">
-    <title>PLAYIDTV Update 24Time</title>
-
-            
-    <script>
-        function updateCountdown(seconds) {
-            document.getElementById('countdown').textContent = `Redirecting in ${seconds} seconds...`;
-        }
-
-        function redirect() {
-            window.location.href = 'https://playidtv24.vercel.app/';
-        }
-
-        const delay = 0;
-
-        setTimeout(redirect, delay);
-
-        let secondsLeft = Math.ceil(delay / 0);
-        const countdownInterval = setInterval(function() {
-            updateCountdown(secondsLeft);
-            secondsLeft--;
-
-            if (secondsLeft < 0) {
-                clearInterval(countdownInterval);
-            }
-        }, 10);
-    </script>
-
-
-
-
+<html>
+	<head>
+		<script>
+			window.location.replace("https://playidtv24.vercel.app/");
+		</script>
+	</head>
+</html>
 #EXTM3U url-tvg="https://iptv36.vercel.app/epg.xml, https://xmltv.tvkaista.net/guides/tv.trueid.net.xml,https://www.bevy.be/generate/9lxaRala0v.xml,https://i.mjh.nz/SamsungTVPlus/all.xml,https://i.mjh.nz/au/all/epg.xml,https://www.tdtchannels.com/epg/TV.xml,https://www.bevy.be/bevyfiles/indonesiapremium1.xml,https://www.bevy.be/bevyfiles/indonesiapremium2.xml,https://www.bevy.be/bevyfiles/indonesiapremium3.xml,https://www.bevy.be/bevyfiles/indiapremium4.xml,https://www.bevy.be/bevyfiles/malaysia.xml,https://www.bevy.be/bevyfiles/malaysiapremium1.xml,https://www.bevy.be/bevyfiles/malaysiapremium2.xml,https://www.bevy.be/bevyfiles/singaporepremium.xml,https://www.bevy.be/bevyfiles/thailand.xml,https://www.bevy.be/bevyfiles/thailandpremium.xml,https://www.bevy.be/bevyfiles/unitedstatespremium3.xml,https://www.bevy.be/bevyfiles/unitedstatespremium4.xml,https://i.mjh.nz/PlutoTV/all.xml,https://www.bevy.be/bevyfiles/francepremium.xml,https://www.bevy.be/bevyfiles/slovakia.xml,https://www.bevy.be/bevyfiles/slovakiapremium.xml,https://avkb.short.gy/tsepg.xml.gz,https://www.bevy.be/bevyfiles/chilepremium.xml,https://www.bevy.be/bevyfiles/germanypremium2.xml" refresh="23"
 
 
