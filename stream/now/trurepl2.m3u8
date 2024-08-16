@@ -1,0 +1,5 @@
+#EXTM3U
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:10,
+http://hans_monika.streamtv.to:8080/live/SdUXpcgPD7/RzaNJT6Z7M/8685.ts
