@@ -31825,9 +31825,9 @@
         "streamData": {
             "MPD=": "https://49-231-37-237-rewriter.ais-vidnt.com/ais/play/origin/live/eds/B0014/DASH/B0014.mpd?playbackUrlPrefix=https%3A%2F%2Ftr.play-rbcdn.ais.co.th%3A8438%2F&originBasicUrl=http%3A%2F%2Fpl-origin.ais-vidnt.com%2Fais%2Fplay%2Fanevia&tt=281eb0cc2345629d9e3a04d548def125&chunkHttps=true&tmid=B0014&tpbk=0bbKyTZNH7IqxFwj&rrt=1724757839&tmod=rfk&rsid=a61cab51-c6ed-4137-9728-de745e7c5b10&tuid=uwBArnpAx%2Bl0ZsSr5YKY5WRspbalaoonO8fj9s7VEqPm9jZ6Yc22e4%2Bn%2Fqh3ZDG2poQTLYxWNqIVgz3ZzybbJRYxoCKRCAXvEsIjAJLONECn0%3D&cdn=redfox-https&tdid=95b63269f4295b0f92d525dd79f86049&origin=anevia&tfa=f0-fc&tttl=1724844239",
             "dashPlayreadyLicenseUrl": "https://tataplay.live.ott.irdeto.com/playready/rightsmanager.asmx?CrmId=tatasky&AccountId=tatasky&ContentId=400001465",
-            "dashWidewinePlayUrl": "https://cable83tataplay.akamaized.net/shikshatvhd/shikshatvhd/playlist.m3u8",
+            "dashWidewinePlayUrl": "https://edge6a.v2h-cdn.com/3hd/3hd.stream/playlist.m3u8",
             "license_url": "https://tataplay.live.ott.irdeto.com/Widevine/getlicense?CrmId=tatasky&AccountId=tatasky&ContentId=400001465",
-            "fairplayUrl": "https://cable83tataplay.akamaized.net/shikshatvhd/shikshatvhd/playlist.m3u8"
+            "fairplayUrl": "https://edge6a.v2h-cdn.com/3hd/3hd.stream/playlist.m3u8"
         }
     },
     {
