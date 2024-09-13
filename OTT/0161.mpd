@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:cenc="urn:mpeg:cenc:2013" xmlns:mspr="urn:microsoft:playready" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" availabilityStartTime="2015-01-01T00:00:08Z" maxSegmentDuration="PT3S" minBufferTime="PT10S" minimumUpdatePeriod="PT2S" profiles="urn:mpeg:dash:profile:isoff-live:2011" publishTime="2024-09-13T04:36:07.628369Z" timeShiftBufferDepth="PT1M4S" type="dynamic" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd">
+  <BaseURL xmlns="">https://tr.play-rbcdn.ais.co.th:8438/live/eds/V0161/DASH/</BaseURL>
+  <Period xmlns="" id="1" start="PT0S">
+    <AdaptationSet contentType="audio" group="1" id="1" lang="en" mimeType="audio/mp4" segmentAlignment="true">
+      <ContentProtection cenc:default_KID="41c6d604-1786-bf81-4263-6da6646af821" schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc"/>
+      <ContentProtection schemeIdUri="urn:uuid:9A04F079-9840-4286-AB92-E65BE0885F95"/>
+      <ContentProtection schemeIdUri="urn:uuid:EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED"/>
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main"/>
+      <SegmentTemplate initialization="V0161-$RepresentationID$-init.mp4?originBasicUrl=http%3A%2F%2Fpl-origin.ais-vidnt.com%2Fais%2Fplay%2Fanevia&amp;tt=39d76907c78a3e18d4ecbdc9df12ccf6&amp;tmid=B0001&amp;tpbk=ChlotSbpJ6IYStlA&amp;rrt=1726173003&amp;rsid=b77370b3-3fe8-4f78-806e-4e771b8e1d13&amp;tuid=jbyvGG%2FdqmxDOLh5AO7TzsqVUm1U7GEZPqVUXI9ASZ%2F02rRmaNLiMW59CHEeEBqB6EQTLYxWNqIVgz3ZzybbJRY+irA+g5Vzm06z845rvgGbc%3D&amp;cdn=redfox-https&amp;tdid=5e8266c54570acf0cd2dde795ad21999&amp;origin=anevia&amp;tfa=f0-fc&amp;tttl=1726257602&amp;rfk=1726223767_a5a347d29eebf95a5aada5534d7ab7a24ba8e672177594623ceafcb67dcc8214" media="V0161-$RepresentationID$-$Time$.mp4?originBasicUrl=http%3A%2F%2Fpl-origin.ais-vidnt.com%2Fais%2Fplay%2Fanevia&amp;tt=39d76907c78a3e18d4ecbdc9df12ccf6&amp;tmid=B0001&amp;tpbk=ChlotSbpJ6IYStlA&amp;rrt=1726173003&amp;rsid=b77370b3-3fe8-4f78-806e-4e771b8e1d13&amp;tuid=jbyvGG%2FdqmxDOLh5AO7TzsqVUm1U7GEZPqVUXI9ASZ%2F02rRmaNLiMW59CHEeEBqB6EQTLYxWNqIVgz3ZzybbJRY+irA+g5Vzm06z845rvgGbc%3D&amp;cdn=redfox-https&amp;tdid=5e8266c54570acf0cd2dde795ad21999&amp;origin=anevia&amp;tfa=f0-fc&amp;tttl=1726257602&amp;rfk=1726223767_a5a347d29eebf95a5aada5534d7ab7a24ba8e672177594623ceafcb67dcc8214" timescale="10000000">
+        <SegmentTimeline>
+          <S d="20053334" t="3061316966172888"/>
+          <S d="20053330"/>
+          <S d="20053334" r="1"/>
+          <S d="19626668"/>
+          <S d="20053334"/>
+          <S d="20053330"/>
+          <S d="20053334" r="4"/>
+          <S d="19626664"/>
+          <S d="20053334" r="3"/>
+          <S d="20053330"/>
+          <S d="20053334" r="1"/>
+          <S d="19626668"/>
+          <S d="20053334"/>
+          <S d="20053330"/>
+          <S d="20053334" r="4"/>
+          <S d="19626664"/>
+          <S d="20053334" r="2"/>
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation audioSamplingRate="24000" bandwidth="64000" codecs="mp4a.40.2" id="mp4a_64000_eng=2">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet contentType="video" frameRate="25" group="2" id="2" maxBandwidth="5000000" maxHeight="1080" maxWidth="1920" mimeType="video/mp4" minBandwidth="400000" minHeight="270" minWidth="480" par="16:9" segmentAlignment="true" startWithSAP="1">
+      <ContentProtection cenc:default_KID="41c6d604-1786-bf81-4263-6da6646af821" schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc"/>
+      <ContentProtection schemeIdUri="urn:uuid:9A04F079-9840-4286-AB92-E65BE0885F95"/>
+      <ContentProtection schemeIdUri="urn:uuid:EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED"/>
+      <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main"/>
+      <SegmentTemplate initialization="V0161-$RepresentationID$-init.mp4?originBasicUrl=http%3A%2F%2Fpl-origin.ais-vidnt.com%2Fais%2Fplay%2Fanevia&amp;tt=39d76907c78a3e18d4ecbdc9df12ccf6&amp;tmid=B0001&amp;tpbk=ChlotSbpJ6IYStlA&amp;rrt=1726173003&amp;rsid=b77370b3-3fe8-4f78-806e-4e771b8e1d13&amp;tuid=jbyvGG%2FdqmxDOLh5AO7TzsqVUm1U7GEZPqVUXI9ASZ%2F02rRmaNLiMW59CHEeEBqB6EQTLYxWNqIVgz3ZzybbJRY+irA+g5Vzm06z845rvgGbc%3D&amp;cdn=redfox-https&amp;tdid=5e8266c54570acf0cd2dde795ad21999&amp;origin=anevia&amp;tfa=f0-fc&amp;tttl=1726257602&amp;rfk=1726223767_a5a347d29eebf95a5aada5534d7ab7a24ba8e672177594623ceafcb67dcc8214" media="V0161-$RepresentationID$-$Time$.mp4?originBasicUrl=http%3A%2F%2Fpl-origin.ais-vidnt.com%2Fais%2Fplay%2Fanevia&amp;tt=39d76907c78a3e18d4ecbdc9df12ccf6&amp;tmid=B0001&amp;tpbk=ChlotSbpJ6IYStlA&amp;rrt=1726173003&amp;rsid=b77370b3-3fe8-4f78-806e-4e771b8e1d13&amp;tuid=jbyvGG%2FdqmxDOLh5AO7TzsqVUm1U7GEZPqVUXI9ASZ%2F02rRmaNLiMW59CHEeEBqB6EQTLYxWNqIVgz3ZzybbJRY+irA+g5Vzm06z845rvgGbc%3D&amp;cdn=redfox-https&amp;tdid=5e8266c54570acf0cd2dde795ad21999&amp;origin=anevia&amp;tfa=f0-fc&amp;tttl=1726257602&amp;rfk=1726223767_a5a347d29eebf95a5aada5534d7ab7a24ba8e672177594623ceafcb67dcc8214" timescale="10000000">
+        <SegmentTimeline>
+          <S d="20000000" r="31" t="3061316966000000"/>
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation bandwidth="400000" codecs="avc1.640029" height="270" id="avc1_400000=8" sar="1:1" width="480"/>
+      <Representation bandwidth="800000" codecs="avc1.640029" height="360" id="avc1_800000=9" sar="1:1" width="640"/>
+      <Representation bandwidth="1200000" codecs="avc1.640029" height="480" id="avc1_1200000=10" sar="1280:1281" width="854"/>
+      <Representation bandwidth="3000000" codecs="avc1.640029" height="720" id="avc1_3000000=11" sar="1:1" width="1280"/>
+      <Representation bandwidth="5000000" codecs="avc1.640029" height="1080" id="avc1_5000000=12" sar="1:1" width="1920"/>
+    </AdaptationSet>
+  </Period>
+</MPD>
