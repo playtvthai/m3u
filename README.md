@@ -1,4 +1,4 @@
-# M3U :https://playidtv.vercel.app
+# M3U :https://m3u-lime.vercel.app/
 ![20240403_074446](https://github.com/Playidtv2/m3u/assets/159120249/3d0daa8a-a943-4c2a-8904-9d33d46ee564)
 
 
