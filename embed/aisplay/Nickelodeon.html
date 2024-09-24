@@ -21,11 +21,14 @@ body {
 <div id="player"></div>
 <script>
   var player = new Clappr.Player({
-          source: 'https://cco-streamer1.cdn.3bbtv.com:8443/3bb/live/303/303.mpd',
+          source: 'https://cco-streamer1.cdn.3bbtv.com:8443/3bb/live/105/105.mpd',
           mimeType: 'application/dash+xml',
           height: '100%',
           width: '100%',
           autoPlay: true,
+          mute: true,     
+          watermark: "https://iptv36.my.to/logo/info.png",
+          position: "bottom- left",          
           plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],
           events: {onReady: function() {var plugin = this.getPlugin('click_to_pause'); plugin && plugin.disable();},},
           chromecast: {
@@ -35,15 +38,16 @@ body {
           shakaConfiguration: {
               drm: {
               clearKeys: {
-					'9130a6448a74430794d355b48b56a64c':'c2f4d3288cdb43cf81e519ceb414dd6f'		
+                    '7c04b8e7aa524afea879b2ed1aef8242':'91e72b75fcb94c3bb36cceb741afd621'        
                   }
               },
           },
           shakaOnBeforeLoad: function (shaka_player) {},
           parentId: '#player'
       });
-  </script>
-    <span style='position:absolute;top:10px;right:10px;font-size: 08px; font-weight: bold;color: #ff0;'><em>PLAYIDTV</em></span>
+</script>    
+    
+    <span style='position:absolute;top:13px;right:5px;font-size: 09px; font-weight: bold;color: #95FFB5;'><em>PLAYIDTV2.7</em></span>
    
    </center>
 </html>
