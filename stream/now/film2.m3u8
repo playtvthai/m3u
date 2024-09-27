@@ -1,0 +1,4 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2700000
+https://live-sg2.aws-stream.com:9090/v3/_oTxKnKFcpdaEx84SaP_BA/1727431951/5ae70bb21ec3d6dbd4bf31e12397b323/EM6dVRqIOwIvMxGm71eNSA/1727453531/live/dx-origin/th-hbo_480/chunks.m3u8
