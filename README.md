@@ -1,16 +1,11 @@
 # M3U :https://m3u-lime.vercel.app/
+![playid2](https://github.com/user-attachments/assets/c7b31faf-1e86-4dec-8c06-2d59ad2e3cdb)
 
+# แอพดูทีวีออนไลน์ 
+# หนังซีรีย์18+ 
+# สามรถใช้ได้ ทั้ง android tv iOS คอมพิวเตอร์
+![20241105_173932](https://github.com/user-attachments/assets/4e747e05-06a2-4d84-a73a-e07ce3552d50)
 
-# MXPLAYER ONLINE :https://m3u-lime.vercel.app/
-
-#https://www.kankanzhibo.com/tv_player/clappr.php?url=
-
-# M3U8 PLAYER :[https://www.ทีวีท้องถิ่นไทย.com/play.php?url=linkm3u8
-
-(https://playhls.com/?url=linkm3u8)
-
-
-# 
 # ส่วนหัว :https://playidtv2.github.io/m3u/
 
 # หน้าแรก
