@@ -6,9 +6,6 @@
 # Download App
 Link: https://realmetx.serv00.net/PlayID.apk
 link:
-(https://github.com/user-attachments/assets/96a9dbdd-48f6-42df-9ab3-6e6e4b4d8045)
-![Screenshot_2024-11-02-18-41-19-86_a894d32f48ad88c8e3436fa5cdd647ba](https://github.com/user-attachments/assets/63a4e750-0cc5-4c78-93de-29a8085a75a9)
-![Screenshot_2024-11-02-21-24-08-57_a894d32f48ad88c8e3436fa5cdd647ba](https://github.com/user-attachments/assets/dced0d1e-3a02-4bd9-87ab-1a55f05e1182)
 ![IMG_20241102_220202](https://github.com/user-attachments/assets/053f565d-dad8-4b93-a09b-cc6b9f02825c)
 ![Screenshot_2024-11-02-22-04-22-08_a894d32f48ad88c8e3436fa5cdd647ba](https://github.com/user-attachments/assets/eb4f10e0-c14d-461a-b84a-631ce602cd9d)
 ![Screenshot_2024-11-02-22-04-32-10_a894d32f48ad88c8e3436fa5cdd647ba](https://github.com/user-attachments/assets/9652ea19-e077-432c-b7f3-f8bb3feff678)
